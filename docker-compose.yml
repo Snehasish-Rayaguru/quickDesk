@@ -1,0 +1,60 @@
+services:
+
+  db:
+    image: postgres:16
+    container_name: quickdesk_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: quickdesk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d quickdesk"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: quickdesk_backend
+    restart: unless-stopped
+    environment:
+      APP_NAME: QuickDesk
+      ENVIRONMENT: production
+
+      DATABASE_URL: postgresql+psycopg://postgres:${POSTGRES_PASSWORD}@db:5432/quickdesk
+
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_USERNAME: ${EMAIL_USERNAME}
+      EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+      EMAIL_FROM: ${EMAIL_FROM}
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: quickdesk_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
