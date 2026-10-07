@@ -106,6 +106,8 @@ function normalizeTicketDetail(data) {
   return {
     ...ticket,
 
+    employee: data?.employee || null,
+
     ai_draft_reply:
       data?.ai_draft_reply ??
       ticket?.ai_draft_reply ??
@@ -1499,12 +1501,12 @@ function AgentTicketDetail({
 
       {
         ticket: {...},
+        employee: {...},
         ai_draft_reply: "...",
         citations: [],
         audit_logs: []
       }
       */
-
       const data =
         await apiRequest(
           `/tickets/${selectedTicket.id}`
@@ -1667,12 +1669,7 @@ function AgentTicketDetail({
   const resolved =
     detail.status === "Resolved";
 
-  /*
-  IMPORTANT:
 
-  Current backend returns employee_id,
-  not employee name/email.
-  */
 
   return (
     <div style={styles.detailCard}>
@@ -1718,18 +1715,16 @@ function AgentTicketDetail({
 
         <div style={styles.employeeInfo}>
           <div style={styles.avatar}>
-            #
+            {detail.employee?.name?.charAt(0)?.toUpperCase() || "E"}
           </div>
 
           <div>
             <strong>
-              Employee ID:{" "}
-              {detail.employee_id}
+              {detail.employee?.name || "Unknown Employee"}
             </strong>
 
             <p style={styles.muted}>
-              The current ticket-detail API
-              returns employee_id only.
+              {detail.employee?.email || "Email not available"}
             </p>
           </div>
         </div>
@@ -2516,6 +2511,9 @@ function AgentDashboard({
           ) {
             const newTicket =
               message.ticket;
+            setMetricsRefreshTrigger(
+              (current) => current + 1
+            );
 
             setTickets((current) => {
               const alreadyExists =

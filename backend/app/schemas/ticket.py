@@ -67,8 +67,16 @@ class TicketAuditResponse(BaseModel):
 
     model_config = {"from_attributes": True}
 
+class EmployeeInfo(BaseModel):
+    id: int
+    name: str
+    email: str
+
+    model_config = {"from_attributes": True}
+
 class AgentTicketDetailResponse(BaseModel):
     ticket: TicketResponse
+    employee: EmployeeInfo
     ai_draft_reply: str | None
     citations: list[TicketCitation]
     audit_logs: list[TicketAuditResponse]

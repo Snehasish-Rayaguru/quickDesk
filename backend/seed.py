@@ -11,9 +11,7 @@ def seed_users():
     db = SessionLocal()
 
     try:
-        # -----------------------------
         # Demo Employee
-        # -----------------------------
         employee_email = "employee@quickdesk.com"
 
         employee = db.scalar(
@@ -29,13 +27,10 @@ def seed_users():
             )
 
             db.add(employee)
-            print("✅ Demo employee created")
+            print("Demo employee created")
         else:
-            print("ℹ️ Demo employee already exists")
-
-        # -----------------------------
+            print("ℹDemo employee already exists")
         # Demo Agent
-        # -----------------------------
         agent_email = "agent@quickdesk.com"
 
         agent = db.scalar(
@@ -51,9 +46,9 @@ def seed_users():
             )
 
             db.add(agent)
-            print("✅ Demo agent created")
+            print("Demo agent created")
         else:
-            print("ℹ️ Demo agent already exists")
+            print("ℹDemo agent already exists")
 
         db.commit()
 
@@ -77,7 +72,7 @@ def check_knowledge_base():
 
 
 def main():
-    print("\n🌱 Seeding QuickDesk...\n")
+    print("\nSeeding QuickDesk...\n")
 
     # Make sure tables exist
     Base.metadata.create_all(bind=engine)
@@ -85,7 +80,7 @@ def main():
     seed_users()
     check_knowledge_base()
 
-    print("\n✅ Seed completed successfully!\n")
+    print("\nSeed completed successfully!\n")
 
 
 if __name__ == "__main__":

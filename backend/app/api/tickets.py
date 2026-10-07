@@ -233,6 +233,13 @@ def get_ticket_detail(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Ticket not found",
         )
+    employee = db.get(User, ticket.employee_id)
+
+    if not employee:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Employee not found",
+        )
 
     rag_result = generate_ai_draft(
         ticket.title,
@@ -253,11 +260,11 @@ def get_ticket_detail(
 
     return {
         "ticket": ticket,
+        "employee": employee,
         "ai_draft_reply": rag_result["draft"],
         "citations": rag_result["citations"],
         "audit_logs": audit_logs,
     }
-
 
 @router.patch("/{ticket_id}/override")
 def override_ticket_classification(
