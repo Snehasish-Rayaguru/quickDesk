@@ -14,7 +14,7 @@ conda activate quickdesk
 
 3. Install backend dependencies
 cd backend
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 
 4. Set up PostgreSQL
 Create a PostgreSQL database named:
@@ -125,7 +125,7 @@ The following diagram shows the main components of QuickDesk and how the fronten
 | `WS` | `/ws/agent?token=<JWT>` | Send new-ticket notifications to connected agents | Agent |
 | `WS` | `/ws/employee/{employee_id}?token=<JWT>` | Notify an employee when their ticket is resolved | Employee |
 
-### Authentication
+# 5. Authentication
 
 Authenticated REST API requests use:
 
@@ -134,9 +134,9 @@ Authorization: Bearer <JWT_TOKEN>
 
 
 
-# 4. Decisions and Tradeoffs
+# 6. Decisions and Tradeoffs
 
-### a) Why did you pick this frontend framework (React vs Next.js)?
+## a) Why did you pick this frontend framework (React vs Next.js)?
 
 I chose **React with Vite** instead of Next.js because QuickDesk is a relatively small internal dashboard application and does not require server-side rendering, SEO optimization, or the additional routing and server features provided by Next.js.
 

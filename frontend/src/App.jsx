@@ -2122,7 +2122,7 @@ function AgentTicketDetail({
    GET /metrics/
 ===================================================== */
 
-function MetricsPanel() {
+function MetricsPanel({ refreshTrigger }) {
   const [metrics, setMetrics] =
     useState(null);
 
@@ -2165,7 +2165,7 @@ function MetricsPanel() {
 
   useEffect(() => {
     loadMetrics();
-  }, []);
+  }, [refreshTrigger]);
 
   if (loading) {
     return (
@@ -2346,6 +2346,8 @@ function AgentDashboard({
 
   const [refreshing, setRefreshing] =
     useState(false);
+  const [metricsRefreshTrigger, setMetricsRefreshTrigger] = 
+    useState(0);
 
   async function loadTickets(
     isRefresh = false
@@ -2417,6 +2419,7 @@ function AgentDashboard({
         getTicketArray(data);
 
       setTickets(result);
+      setMetricsRefreshTrigger((current) => current + 1);
 
       /*
       Keep currently selected ticket
@@ -2651,7 +2654,9 @@ function AgentDashboard({
         </div>
       </div>
 
-      <MetricsPanel />
+      <MetricsPanel
+        refreshTrigger={metricsRefreshTrigger}
+      />
 
       <AgentFilters
         status={status}
