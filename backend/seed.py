@@ -60,12 +60,12 @@ def check_knowledge_base():
     kb_path = Path(__file__).resolve().parent / "app" / "kb"
 
     if not kb_path.exists():
-        print("❌ Knowledge base directory not found")
+        print("Knowledge base directory not found")
         return
 
     articles = list(kb_path.glob("*.md"))
 
-    print(f"✅ Knowledge base found: {len(articles)} articles")
+    print(f"Knowledge base found: {len(articles)} articles")
 
     for article in articles:
         print(f"   - {article.name}")

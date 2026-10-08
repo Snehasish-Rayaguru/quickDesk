@@ -6,12 +6,12 @@ QuickDesk is an AI-assisted internal helpdesk application that allows employees 
 
 QuickDesk can be run in two ways:
 
-- **Option A — Manual Local Setup:** Run PostgreSQL, FastAPI, and React separately.
-- **Option B — Docker Setup:** Run PostgreSQL, backend, and frontend together using Docker Compose.
+- **Option A : Manual Local Setup:** Run PostgreSQL, FastAPI, and React separately.
+- **Option B : Docker Setup:** Run PostgreSQL, backend, and frontend together using Docker Compose.
 
 ---
 
-## Option A — Manual Local Setup
+## Option A : Manual Local Setup
 
 Follow these steps to run QuickDesk directly on your machine for development.
 
@@ -216,7 +216,7 @@ Password: Agent@123
 
 ---
 
-## Option B — Docker Setup
+## Option B : Docker Setup
 
 Docker Compose allows you to run the complete QuickDesk application without manually setting up the backend environment or PostgreSQL server.
 
@@ -367,7 +367,7 @@ You only need `--build` again when you make changes that require rebuilding the 
 
 ### Manual Setup
 
-**Terminal 1 — Backend**
+**Terminal 1 : Backend**
 
 ```bash
 git clone <YOUR_GITHUB_REPOSITORY_URL>
@@ -387,7 +387,7 @@ python seed.py
 uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
-**Terminal 2 — Frontend**
+**Terminal 2 : Frontend**
 
 ```bash
 cd quickDesk/frontend
@@ -562,6 +562,8 @@ sentence-transformers/all-MiniLM-L6-v2
 The embeddings are stored in a **FAISS** vector store. When an agent opens a ticket, the system retrieves the **top 3 relevant chunks** based on similarity.
 
 These retrieved chunks are then passed to the LLM with a prompt that tells it to only use the provided knowledge-base information. If there is no relevant article, the system tells the agent that no relevant knowledge-base article was found instead of allowing the model to make up an answer.
+
+![RAG pipeline](docs/RAGpipeline.png)
 
 ### c) How did you handle the case where the LLM returns a category that does not match your allowed list?
 

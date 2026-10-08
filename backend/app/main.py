@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from sqlalchemy import text
-from app.db.database import Base, engine
 
+from app.db.database import Base, engine
 from app.models.user import User
+from app.services.rag_service import build_vector_store
+
 from app.api.users import router as users_router
 from app.api.auth import router as auth_router
 from app.api.tickets import router as tickets_router
-
-from app.services.rag_service import build_vector_store
 from app.api.metrics import router as metrics_router
 from app.api.websocket import router as websocket_router
 
